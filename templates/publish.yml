@@ -1,0 +1,22 @@
+parameters:
+  - name: 'projectPath'
+    type: string
+  - name: 'artifactName'
+    type: string
+  - name: 'buildConfiguration'
+    type: string
+    default: 'Release'
+
+steps:
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    publishWebProjects: True
+    projects: '${{ parameters.projectPath }}/*.csproj'
+    arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: '${{ parameters.artifactName }}'

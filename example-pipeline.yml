@@ -1,0 +1,17 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - 'TestProject/*' # path filters cannot be parameterized
+  batch: true
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - template: 'templates/publish.yml'
+    parameters:
+      projectPath: 'TestProject'
+      artifactName: 'TestProject'
